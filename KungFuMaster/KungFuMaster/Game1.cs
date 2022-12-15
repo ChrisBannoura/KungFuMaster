@@ -18,7 +18,7 @@ namespace KungFuMaster
 		private GraphicsDeviceManager graphics;
 		private SpriteBatch spriteBatch;
 
-		private Entity background
+		private Entity background;
 		private List<Entity> entities;
 		private Player player;
 
