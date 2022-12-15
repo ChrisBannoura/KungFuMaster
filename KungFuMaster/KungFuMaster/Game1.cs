@@ -11,15 +11,16 @@ using System.Linq;
 
 namespace KungFuMaster
 {
-	/// <summary>
-	/// This is the main type for your game
-	/// </summary>
 	public class Game1 : Microsoft.Xna.Framework.Game
 	{
+		private GraphicsDeviceManager graphics;
+		private SpriteBatch spriteBatch;
 
+		private Entity background;
+		private List<Entity> entities;
+		private Player player;
 
-		GraphicsDeviceManager graphics;
-		SpriteBatch spriteBatch;
+		private Vector2 velocity;
 
 		public Game1()
 		{
@@ -32,10 +33,11 @@ namespace KungFuMaster
 			base.Initialize();
 		}
 
-
 		protected override void LoadContent()
 		{
 			spriteBatch = new SpriteBatch(GraphicsDevice);
+
+			this.player = new Player();
 		}
 
 		protected override void Update(GameTime gameTime)
