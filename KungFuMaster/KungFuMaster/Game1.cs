@@ -16,7 +16,7 @@ namespace KungFuMaster
 		private GraphicsDeviceManager graphics;
 		private SpriteBatch spriteBatch;
 
-		private Entity background;
+		private Entity background
 		private List<Entity> entities;
 		private Player player;
 
@@ -36,8 +36,6 @@ namespace KungFuMaster
 		protected override void LoadContent()
 		{
 			spriteBatch = new SpriteBatch(GraphicsDevice);
-
-			this.player = new Player();
 		}
 
 		protected override void Update(GameTime gameTime)
