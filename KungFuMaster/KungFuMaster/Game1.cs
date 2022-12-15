@@ -13,6 +13,8 @@ namespace KungFuMaster
 {
 	public class Game1 : Microsoft.Xna.Framework.Game
 	{
+		private const float speed = 5.0f;
+
 		private GraphicsDeviceManager graphics;
 		private SpriteBatch spriteBatch;
 
@@ -36,14 +38,19 @@ namespace KungFuMaster
 		protected override void LoadContent()
 		{
 			spriteBatch = new SpriteBatch(GraphicsDevice);
-
-			this.player = new Player();
 		}
 
 		protected override void Update(GameTime gameTime)
 		{
-			if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+			var keyboardState = Keyboard.GetState();
+
+			if (keyboardState.IsKeyDown(Keys.Escape))
 				this.Exit();
+
+			if (keyboardState.IsKeyDown(Keys.A))
+				this.velocity = -Vector2.UnitX * speed;
+			else if (keyboardState.IsKeyDown(Keys.D))
+				this.velocity = Vector2.UnitX * speed;
 
 			base.Update(gameTime);
 		}
