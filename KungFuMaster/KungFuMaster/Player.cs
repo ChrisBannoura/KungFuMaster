@@ -21,7 +21,7 @@ namespace KungFuMaster
 
 		public override void Draw(SpriteBatch batch)
 		{
-
+			batch.Draw(this.Texture, this.Rect, Color.White);
 		}
 	}
 }
