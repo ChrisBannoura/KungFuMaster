@@ -47,7 +47,7 @@ namespace KungFuMaster
 
 		protected override void Update(GameTime gameTime)
 		{
-			
+			this.HandleInput();
 
 			base.Update(gameTime);
 		}
@@ -78,8 +78,6 @@ namespace KungFuMaster
 
 				this.shouldCrouch = keyboardState.IsKeyDown(Keys.LeftControl);
 			}
-
-
 
 			this.previousState = keyboardState;
 		}
