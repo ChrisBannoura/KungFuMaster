@@ -13,12 +13,12 @@ namespace KungFuMaster
 {
 	public class Game1 : Microsoft.Xna.Framework.Game
 	{
-		private const float speed = 5.0f;
+		public const float speed = 5.0f;
 
 		private GraphicsDeviceManager graphics;
 		private SpriteBatch spriteBatch;
 
-		private Entity background
+		private Entity background;
 		private List<Entity> entities;
 		private Player player;
 
