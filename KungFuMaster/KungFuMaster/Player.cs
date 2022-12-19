@@ -9,9 +9,10 @@ namespace KungFuMaster
 {
 	class Player : Entity
 	{
+		public static Rectangle rect;
 		public Player(Rectangle rect, Texture2D texture) : base(rect, texture)
 		{
-
+			Player.rect = rect;
 		}
 
 		public override void Update()
