@@ -18,11 +18,16 @@ namespace KungFuMaster
 		private GraphicsDeviceManager graphics;
 		private SpriteBatch spriteBatch;
 
-		private Entity background
+		private Entity background;
 		private List<Entity> entities;
 		private Player player;
 
 		private Vector2 velocity;
+		private bool shouldJump;
+		private bool isGrounded;
+		private bool shouldCrouch;
+
+		private KeyboardState previousState;
 
 		public Game1()
 		{
@@ -42,6 +47,20 @@ namespace KungFuMaster
 
 		protected override void Update(GameTime gameTime)
 		{
+			this.HandleInput();
+
+			base.Update(gameTime);
+		}
+
+		protected override void Draw(GameTime gameTime)
+		{
+			GraphicsDevice.Clear(Color.CornflowerBlue);
+
+			base.Draw(gameTime);
+		}
+
+		private void HandleInput()
+		{
 			var keyboardState = Keyboard.GetState();
 
 			if (keyboardState.IsKeyDown(Keys.Escape))
@@ -52,14 +71,15 @@ namespace KungFuMaster
 			else if (keyboardState.IsKeyDown(Keys.D))
 				this.velocity = Vector2.UnitX * speed;
 
-			base.Update(gameTime);
-		}
+			if (this.isGrounded)
+			{
+				if (keyboardState.IsKeyDown(Keys.Space) && this.previousState.IsKeyUp(Keys.Space) && this.isGrounded)
+					this.shouldJump = true;
 
-		protected override void Draw(GameTime gameTime)
-		{
-			GraphicsDevice.Clear(Color.CornflowerBlue);
+				this.shouldCrouch = keyboardState.IsKeyDown(Keys.LeftControl);
+			}
 
-			base.Draw(gameTime);
+			this.previousState = keyboardState;
 		}
 	}
 }
