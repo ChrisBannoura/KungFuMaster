@@ -19,7 +19,7 @@ namespace KungFuMaster
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
-        private Texture2D debugPixel;
+        private Texture2D debugPixel, playerSheet;
 
         private Background background;
         private List<Entity> entities = new List<Entity>();
@@ -57,15 +57,16 @@ namespace KungFuMaster
                 this.Content.Load<Texture2D>("levelBackground"));
 
             this.debugPixel = Content.Load<Texture2D>("whiteSquare");
+            this.playerSheet = Content.Load<Texture2D>("kungfu");
 
-            this.player = new Player(new Rectangle(260, 270, 75, 150), this.debugPixel);
+            this.player = new Player(new Rectangle(260, 270, 75, 150), this.playerSheet);
             this.entities.Add(new WalkingEnemy(new Rectangle(400, 270, 75, 150), this.debugPixel));
         }
 
         protected override void Update(GameTime gameTime)
         {
             this.HandleInput();
-
+            player.Update();
             foreach (var entity in this.entities)
             {
                 entity.Update();
@@ -122,11 +123,23 @@ namespace KungFuMaster
                 this.Exit();
 
             if (keyboardState.IsKeyDown(Keys.A))
+            {
                 this.velocityX = playerSpeed;
+                player.walking = true;
+                player.flip = false;
+            }
             else if (keyboardState.IsKeyDown(Keys.D))
+            {
                 this.velocityX = -playerSpeed;
+                player.walking = true;
+                player.flip = true;
+            }
             else
+            {
                 this.velocityX = 0.0f;
+                player.walking = false;
+                player.idle = true;
+            }
 
             if (this.isGrounded)
             {
