@@ -19,6 +19,9 @@ namespace KungFuMaster
         private SpriteBatch spriteBatch;
 
         private Texture2D debugPixel;
+		private Entity background;
+		private List<Entity> entities;
+		private Player player;
 
         private Background background;
         private List<Entity> entities = new List<Entity>();
