@@ -58,9 +58,9 @@ namespace KungFuMaster
 		{
 			//batch.Draw(this.Texture, this.Rect, Color.White);
 			if (flip)
-				batch.Draw(this.Texture, this.Rect, aniList[frame][index], Color.White, 0f, new Vector2(15, 0), SpriteEffects.FlipHorizontally, 0f);
+				batch.Draw(this.Texture, this.Rect, aniList[frame][index], Color.White, 0f, new Vector2(0, 0), SpriteEffects.FlipHorizontally, 0f);
 			else
-				batch.Draw(this.Texture, this.Rect, aniList[frame][index], Color.White, 0f, new Vector2(15, 0), SpriteEffects.None, 0f);
+				batch.Draw(this.Texture, this.Rect, aniList[frame][index], Color.White, 0f, new Vector2(0, 0), SpriteEffects.None, 0f);
 		}
 	}
 }
