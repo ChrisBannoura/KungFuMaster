@@ -30,8 +30,6 @@ namespace KungFuMaster
         private bool shouldCrouch;
 
         private bool playerHasControl = true;
-        private bool backroundReachedEdgeLastFrame;
-        private bool playerReachedCenterLastFrame;
 
         private KeyboardState previousState;
 
@@ -54,12 +52,12 @@ namespace KungFuMaster
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            this.background = new Background(new Rectangle(0, 0, 5000, 640),
+            this.background = new Background(new Rectangle(-2500, 0, 5000, 640),
                 this.Content.Load<Texture2D>("levelBackground"));
 
             this.debugPixel = Content.Load<Texture2D>("whiteSquare");
 
-            this.player = new Player(new Rectangle(250, 270, 75, 150), this.debugPixel);
+            this.player = new Player(new Rectangle(260, 270, 75, 150), this.debugPixel);
         }
 
         protected override void Update(GameTime gameTime)
@@ -71,26 +69,20 @@ namespace KungFuMaster
                 entity.Update();
             }
 
-            if (this.playerReachedCenterLastFrame)
+            if (background.Rect.X > 0 && this.playerHasControl)
             {
-                this.playerHasControl = false;
-            }
-            else if (this.backroundReachedEdgeLastFrame)
-            {
-                this.playerHasControl = true;
-            }
+                this.player.Rect.X -= (int)velocityX;
 
-            if (!this.playerHasControl)
-            {
-                this.background.Rect.X += (int)this.velocityX;
+                if (this.player.Rect.X > 260)
+                    this.playerHasControl = false;
             }
             else
             {
-                this.player.Rect.X -= (int)this.velocityX;
-            }
+                this.background.Rect.X += (int)velocityX;
 
-            this.backroundReachedEdgeLastFrame = this.background.Rect.X <= 0;
-            this.playerReachedCenterLastFrame = this.player.Rect.X < 250;
+                if (this.background.Rect.X < 0)
+                    this.playerHasControl = true;
+            }
 
             base.Update(gameTime);
         }
