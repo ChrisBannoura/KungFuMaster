@@ -17,7 +17,7 @@ namespace KungFuMaster
 
 		public override void Update()
 		{
-
+			Player.rect = this.Rect;
 		}
 
 		public override void Draw(SpriteBatch batch)

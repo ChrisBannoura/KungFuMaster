@@ -13,7 +13,8 @@ namespace KungFuMaster
 {
 	public class Game1 : Microsoft.Xna.Framework.Game
 	{
-		public const float speed = 5.0f;
+		public const float playerSpeed = 5.0f;
+		public const float aiSpeed = 2.0f;
 
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
@@ -58,6 +59,7 @@ namespace KungFuMaster
             this.debugPixel = Content.Load<Texture2D>("whiteSquare");
 
             this.player = new Player(new Rectangle(260, 270, 75, 150), this.debugPixel);
+            this.entities.Add(new WalkingEnemy(new Rectangle(400, 270, 75, 150), this.debugPixel));
         }
 
         protected override void Update(GameTime gameTime)
@@ -78,6 +80,11 @@ namespace KungFuMaster
             }
             else
             {
+                foreach (var entity in this.entities)
+                {
+                    entity.Rect.X += (int)velocityX;
+                }
+
                 this.background.Rect.X += (int)velocityX;
 
                 if (this.background.Rect.X < 0)
@@ -94,6 +101,12 @@ namespace KungFuMaster
             this.spriteBatch.Begin();
 
             this.background.Draw(this.spriteBatch);
+
+            foreach (var entity in this.entities)
+            {
+                entity.Draw(this.spriteBatch);
+            }
+
             this.player.Draw(this.spriteBatch);
 
             this.spriteBatch.End();
@@ -109,9 +122,9 @@ namespace KungFuMaster
                 this.Exit();
 
             if (keyboardState.IsKeyDown(Keys.A))
-                this.velocityX = speed;
+                this.velocityX = playerSpeed;
             else if (keyboardState.IsKeyDown(Keys.D))
-                this.velocityX = -speed;
+                this.velocityX = -playerSpeed;
             else
                 this.velocityX = 0.0f;
 

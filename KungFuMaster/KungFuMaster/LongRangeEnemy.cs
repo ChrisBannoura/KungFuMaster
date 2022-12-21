@@ -34,7 +34,7 @@ namespace KungFuMaster
         {
             int distTo = (int)Vector2.Distance(new Vector2(this.Rect.X, 0), new Vector2(Player.rect.X, 0));
             if (distTo > 100)
-                this.Rect.X += distTo / (int)Game1.speed;
+                this.Rect.X += distTo / (int)Game1.playerSpeed;
             else if (Cooldown == 0)
                 this.Shoot();
             if (Cooldown > 0)
