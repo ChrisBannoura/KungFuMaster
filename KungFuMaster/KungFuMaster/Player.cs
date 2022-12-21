@@ -9,8 +9,9 @@ namespace KungFuMaster
 {
 	class Player : Entity
 	{
-		private Rectangle[][] aniList;
 		public static Rectangle rect;
+
+		private Rectangle[][] aniList;
 		private int frame, index, cooldown;
 		public bool walking, idle, flip;
 		public Player(Rectangle rect, Texture2D texture) : base(rect, texture)
@@ -25,10 +26,6 @@ namespace KungFuMaster
 		public override void Update()
 		{
 			Player.rect = this.Rect;
-
-
-
-
 
 			if (walking)
 			{
@@ -57,10 +54,7 @@ namespace KungFuMaster
 		public override void Draw(SpriteBatch batch)
 		{
 			//batch.Draw(this.Texture, this.Rect, Color.White);
-			if (flip)
-				batch.Draw(this.Texture, this.Rect, aniList[frame][index], Color.White, 0f, new Vector2(0, 0), SpriteEffects.FlipHorizontally, 0f);
-			else
-				batch.Draw(this.Texture, this.Rect, aniList[frame][index], Color.White, 0f, new Vector2(0, 0), SpriteEffects.None, 0f);
+			batch.Draw(this.Texture, this.Rect, aniList[frame][index], Color.White, 0f, new Vector2(0, 0), flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
 		}
 	}
 }

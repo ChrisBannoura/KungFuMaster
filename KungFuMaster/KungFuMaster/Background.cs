@@ -20,7 +20,7 @@ namespace KungFuMaster
 
 		public override void Update()
 		{
-			throw new NotImplementedException();
+
 		}
 	}
 }
