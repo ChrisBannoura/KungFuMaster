@@ -10,10 +10,7 @@ namespace KungFuMaster
 	class WalkingEnemy : Entity
 	{
 		private int attackTime = 60;
-<<<<<<< Updated upstream
-=======
 		private Rectangle attackRect;
->>>>>>> Stashed changes
 		private bool attack;
 
 		public WalkingEnemy(Rectangle rect, Texture2D texture) : base(rect, texture)
