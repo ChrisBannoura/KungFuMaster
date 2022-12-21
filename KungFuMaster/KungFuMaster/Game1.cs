@@ -15,71 +15,115 @@ namespace KungFuMaster
 	{
 		public const float speed = 5.0f;
 
-		private GraphicsDeviceManager graphics;
-		private SpriteBatch spriteBatch;
+        private GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
 
-		private Entity background;
-		private List<Entity> entities;
-		private Player player;
+        private Texture2D debugPixel;
 
-		private Vector2 velocity;
-		private bool shouldJump;
-		private bool isGrounded;
-		private bool shouldCrouch;
+        private Background background;
+        private List<Entity> entities = new List<Entity>();
+        private Player player;
 
-		private KeyboardState previousState;
+        private float velocityX;
+        private bool shouldJump;
+        private bool isGrounded;
+        private bool shouldCrouch;
 
-		public Game1()
-		{
-			graphics = new GraphicsDeviceManager(this);
-			Content.RootDirectory = "Content";
-		}
+        private bool playerHasControl = true;
 
-		protected override void Initialize()
-		{
-			base.Initialize();
-		}
+        private KeyboardState previousState;
 
-		protected override void LoadContent()
-		{
-			spriteBatch = new SpriteBatch(GraphicsDevice);
-		}
+        public Game1()
+        {
+            graphics = new GraphicsDeviceManager(this);
+            Content.RootDirectory = "Content";
+        }
 
-		protected override void Update(GameTime gameTime)
-		{
-			this.HandleInput();
+        protected override void Initialize()
+        {
+            base.Initialize();
 
-			base.Update(gameTime);
-		}
+            this.graphics.PreferredBackBufferWidth = 640;
+            this.graphics.PreferredBackBufferHeight = 480;
+            this.graphics.ApplyChanges();
+        }
 
-		protected override void Draw(GameTime gameTime)
-		{
-			GraphicsDevice.Clear(Color.CornflowerBlue);
+        protected override void LoadContent()
+        {
+            spriteBatch = new SpriteBatch(GraphicsDevice);
 
-			base.Draw(gameTime);
-		}
+            this.background = new Background(new Rectangle(-2500, 0, 5000, 640),
+                this.Content.Load<Texture2D>("levelBackground"));
 
-		private void HandleInput()
-		{
-			var keyboardState = Keyboard.GetState();
+            this.debugPixel = Content.Load<Texture2D>("whiteSquare");
 
-			if (keyboardState.IsKeyDown(Keys.Escape))
-				this.Exit();
+            this.player = new Player(new Rectangle(260, 270, 75, 150), this.debugPixel);
+        }
 
-			if (keyboardState.IsKeyDown(Keys.A))
-				this.velocity = -Vector2.UnitX * speed;
-			else if (keyboardState.IsKeyDown(Keys.D))
-				this.velocity = Vector2.UnitX * speed;
+        protected override void Update(GameTime gameTime)
+        {
+            this.HandleInput();
 
-			if (this.isGrounded)
-			{
-				if (keyboardState.IsKeyDown(Keys.Space) && this.previousState.IsKeyUp(Keys.Space) && this.isGrounded)
-					this.shouldJump = true;
+            foreach (var entity in this.entities)
+            {
+                entity.Update();
+            }
 
-				this.shouldCrouch = keyboardState.IsKeyDown(Keys.LeftControl);
-			}
+            if (background.Rect.X > 0 && this.playerHasControl)
+            {
+                this.player.Rect.X -= (int)velocityX;
 
-			this.previousState = keyboardState;
-		}
-	}
+                if (this.player.Rect.X > 260)
+                    this.playerHasControl = false;
+            }
+            else
+            {
+                this.background.Rect.X += (int)velocityX;
+
+                if (this.background.Rect.X < 0)
+                    this.playerHasControl = true;
+            }
+
+            base.Update(gameTime);
+        }
+
+        protected override void Draw(GameTime gameTime)
+        {
+            this.GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            this.spriteBatch.Begin();
+
+            this.background.Draw(this.spriteBatch);
+            this.player.Draw(this.spriteBatch);
+
+            this.spriteBatch.End();
+
+            base.Draw(gameTime);
+        }
+
+        private void HandleInput()
+        {
+            var keyboardState = Keyboard.GetState();
+
+            if (keyboardState.IsKeyDown(Keys.Escape))
+                this.Exit();
+
+            if (keyboardState.IsKeyDown(Keys.A))
+                this.velocityX = speed;
+            else if (keyboardState.IsKeyDown(Keys.D))
+                this.velocityX = -speed;
+            else
+                this.velocityX = 0.0f;
+
+            if (this.isGrounded)
+            {
+                if (keyboardState.IsKeyDown(Keys.Space) && this.previousState.IsKeyUp(Keys.Space) && this.isGrounded)
+                    this.shouldJump = true;
+
+                this.shouldCrouch = keyboardState.IsKeyDown(Keys.LeftControl);
+            }
+
+            this.previousState = keyboardState;
+        }
+    }
 }
